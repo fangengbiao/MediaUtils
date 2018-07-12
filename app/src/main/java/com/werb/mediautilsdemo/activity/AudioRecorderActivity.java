@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.werb.mediautilsdemo.MediaUtils;
 import com.werb.mediautilsdemo.R;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -31,6 +32,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
     private Chronometer chronometer;
     private RelativeLayout audioLayout;
     private String duration;
+    public static String VIDEO_PATH =  "/sdcard/RecordedDemo/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +40,9 @@ public class AudioRecorderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_audio);
         mediaUtils = new MediaUtils(this);
         mediaUtils.setRecorderType(MediaUtils.MEDIA_AUDIO);
-        mediaUtils.setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC));
+        File file = new File(VIDEO_PATH);
+        if (!file.exists()){ file.mkdirs();};
+        mediaUtils.setTargetDir(file);
         mediaUtils.setTargetName(UUID.randomUUID() + ".m4a");
         // btn
         mic = (TextView) findViewById(R.id.tv_mic);

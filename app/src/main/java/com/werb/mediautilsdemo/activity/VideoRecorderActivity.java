@@ -23,6 +23,7 @@ import com.werb.mediautilsdemo.R;
 import com.werb.mediautilsdemo.widget.SendView;
 import com.werb.mediautilsdemo.widget.VideoProgressBar;
 
+import java.io.File;
 import java.util.UUID;
 
 /**
@@ -39,6 +40,8 @@ public class VideoRecorderActivity extends AppCompatActivity {
     private TextView view;
     private SendView send;
     private RelativeLayout recordLayout, switchLayout;
+    public static String VIDEO_PATH =  "/sdcard/RecordedDemo/";
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,12 +51,14 @@ public class VideoRecorderActivity extends AppCompatActivity {
         // setting
         mediaUtils = new MediaUtils(this);
         mediaUtils.setRecorderType(MediaUtils.MEDIA_VIDEO);
-        mediaUtils.setTargetDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES));
+        File file = new File(VIDEO_PATH);
+        if (!file.exists()){ file.mkdirs();};
+        mediaUtils.setTargetDir(new File(VIDEO_PATH));
         mediaUtils.setTargetName(UUID.randomUUID() + ".mp4");
         mediaUtils.setSurfaceView(surfaceView);
         // btn
         send = (SendView) findViewById(R.id.view_send);
-//        view = (TextView) findViewById(R.id.view);
+        //        view = (TextView) findViewById(R.id.view);
         btnInfo = (TextView) findViewById(R.id.tv_info);
         btn = (TextView) findViewById(R.id.main_press_control);
         btn.setOnTouchListener(btnTouch);
@@ -190,10 +195,10 @@ public class VideoRecorderActivity extends AppCompatActivity {
     private void startAnim(){
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(btn,"scaleX",1,0.5f),
-                ObjectAnimator.ofFloat(btn,"scaleY",1,0.5f),
-                ObjectAnimator.ofFloat(progressBar,"scaleX",1,1.3f),
-                ObjectAnimator.ofFloat(progressBar,"scaleY",1,1.3f)
+            ObjectAnimator.ofFloat(btn,"scaleX",1,0.5f),
+            ObjectAnimator.ofFloat(btn,"scaleY",1,0.5f),
+            ObjectAnimator.ofFloat(progressBar,"scaleX",1,1.3f),
+            ObjectAnimator.ofFloat(progressBar,"scaleY",1,1.3f)
         );
         set.setDuration(250).start();
     }
@@ -201,10 +206,10 @@ public class VideoRecorderActivity extends AppCompatActivity {
     private void stopAnim(){
         AnimatorSet set = new AnimatorSet();
         set.playTogether(
-                ObjectAnimator.ofFloat(btn,"scaleX",0.5f,1f),
-                ObjectAnimator.ofFloat(btn,"scaleY",0.5f,1f),
-                ObjectAnimator.ofFloat(progressBar,"scaleX",1.3f,1f),
-                ObjectAnimator.ofFloat(progressBar,"scaleY",1.3f,1f)
+            ObjectAnimator.ofFloat(btn,"scaleX",0.5f,1f),
+            ObjectAnimator.ofFloat(btn,"scaleY",0.5f,1f),
+            ObjectAnimator.ofFloat(progressBar,"scaleX",1.3f,1f),
+            ObjectAnimator.ofFloat(progressBar,"scaleY",1.3f,1f)
         );
         set.setDuration(250).start();
     }

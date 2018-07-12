@@ -90,18 +90,18 @@ public class MediaUtils implements SurfaceHolder.Callback {
         });
     }
 
-//    public void setTextureView(AutoFitTextureView view) {
-//        this.textureView = view;
-//        initCamera();
-//        mDetector = new GestureDetector(activity, new ZoomGestureListener());
-//        this.textureView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                mDetector.onTouchEvent(event);
-//                return true;
-//            }
-//        });
-//    }
+    //    public void setTextureView(AutoFitTextureView view) {
+    //        this.textureView = view;
+    //        initCamera();
+    //        mDetector = new GestureDetector(activity, new ZoomGestureListener());
+    //        this.textureView.setOnTouchListener(new View.OnTouchListener() {
+    //            @Override
+    //            public boolean onTouch(View v, MotionEvent event) {
+    //                mDetector.onTouchEvent(event);
+    //                return true;
+    //            }
+    //        });
+    //    }
 
     public int getPreviewWidth() {
         return previewWidth;
@@ -139,6 +139,7 @@ public class MediaUtils implements SurfaceHolder.Callback {
 
             mMediaRecorder = new MediaRecorder();
             if (recorderType == MEDIA_VIDEO) {
+                mCamera.lock();
                 mCamera.unlock();
                 mMediaRecorder.setCamera(mCamera);
                 mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
@@ -228,7 +229,7 @@ public class MediaUtils implements SurfaceHolder.Callback {
                 List<Camera.Size> mSupportedPreviewSizes = parameters.getSupportedPreviewSizes();
                 List<Camera.Size> mSupportedVideoSizes = parameters.getSupportedVideoSizes();
                 Camera.Size optimalSize = CameraHelper.getOptimalVideoSize(mSupportedVideoSizes,
-                        mSupportedPreviewSizes, mSurfaceView.getWidth(), mSurfaceView.getHeight());
+                    mSupportedPreviewSizes, mSurfaceView.getWidth(), mSurfaceView.getHeight());
                 // Use the same size for recording profile.
                 previewWidth = optimalSize.width;
                 previewHeight = optimalSize.height;
@@ -356,7 +357,7 @@ public class MediaUtils implements SurfaceHolder.Callback {
 
     private String bitmap2File(Bitmap bitmap) {
         File thumbFile = new File(targetDir,
-                targetName);
+            targetName);
         if (thumbFile.exists()) thumbFile.delete();
         FileOutputStream fOut;
         try {
